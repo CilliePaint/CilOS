@@ -7,11 +7,15 @@
 
   -- Delcaring simplistic Variables, including the Gloval for Operating system version
 _G._OSVERSION = "FoxOS BootLoader 0.0.0"
-local component = component
-local computer = computer
-local unicode = unicode
 
--- Checks for Damage to the EEPROM, and Errors, totally unnecessary but can aid in the rare case that happens.
-component = assert("[!!] [001] - Component not found! - Reinstallation of the EEPROM advised.")
-computer = assert("[!!] [002] - Computer not found! - Reinstallation of the EEPROM advised.")
-unicode = assert("[!!] [003] - Unicode not found! - Reinstallation of the EEPROM advised.")
+-- EEPROM Setup
+local eeprom = component.list("eeprom")()
+eeprom = assert("[!!] [001] - EEPROM failed to Initialize.")
+
+-- Boot Address nonsense :tm:
+computer.getBootAddress = function()
+  return component.invoke(eeprom, "getData")
+end
+computer.setBootAddress = function(address)
+  return computer.invoke(eeprom, "setData", address)
+end
