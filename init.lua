@@ -6,7 +6,7 @@
 
 
   -- Delcaring simplistic Variables, including the Gloval for Operating system version
-_G._OSVERSION = "FoxOS BootLoader 0.0.0"
+_G._OSVERSION = "FoxOS BootLoader 0.0.0.0001"
 
 -- EEPROM Setup
 local eeprom = component.list("eeprom")()
