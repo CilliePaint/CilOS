@@ -5,21 +5,13 @@
 --  Will result in violation of the Terms of Service, you're on your own.
 
 
-  -- Delcaring simplistic Variables, including the Gloval for Operating system version
-_G._OSVERSION = "FoxOS BootLoader 0.0.0.0001"
+  -- Delcaring simplistic Variables, including the Global for Operating system version
+_G._OSVERSION = "FoxOS BootLoader 0.0.1.0000"
 
 -- EEPROM Setup
 local eeprom = component.list("eeprom")()
 eeprom = assert("[!!] [001] - EEPROM failed to Initialize.")
 
--- Boot Address nonsense :tm:
-computer.getBootAddress = function()
-  return component.invoke(eeprom, "getData")
-end
-computer.setBootAddress = function(address)
-  return computer.invoke(eeprom, "setData", address)
-end
-c
 -- GPU Decleration.
 local w, h
 local screen = component.list("screen", true)()
@@ -59,6 +51,18 @@ local function status(msg)
   end
 end
 
--- State that things are working, mostly for debugging!
-status("Status Function Functional.")
-status("Booting " .. _OSVERSION .. "...")
+do
+  local addr, invoke = computer.getBootAddress(), component.invoke
+  local function loadfile(file)
+    status("[--] > " .. file)
+    local handle = invoke(addr, "open", file)
+    local buffer = ""
+    repeat
+      local data = invoke(addr, "read", handle, math.maxinterger or math.huge)
+      buffer = buffer .. (data or "")
+    until not data
+    invoke(addr, "close", handle)
+    return load(buffer, "=" .. file, "bt", _G)
+  end
+  loadfile("/sys/boot.lua")
+end
