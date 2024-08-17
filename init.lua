@@ -4,10 +4,6 @@
 --  Made by Katya, violation of the above text
 --  Will result in violation of the Terms of Service, you're on your own.
 
-
-  -- Delcaring simplistic Variables, including the Global for Operating system version
-_G._OSVERSION = "FoxOS BootLoader 0.0.1.0000"
-
 -- EEPROM Setup
 local eeprom = component.list("eeprom")()
 eeprom = assert("[!!] [001] - EEPROM failed to Initialize.")
