@@ -64,7 +64,7 @@ do
     invoke(addr, "close", handle)
     return load(buffer, "=" .. file, "bt", _G)
   end
-  loadfile("/sys/boot.lua")
+  loadfile("/sys/boot.lua")(loadfile)
 end
 
 while true do
