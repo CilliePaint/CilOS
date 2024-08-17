@@ -66,3 +66,7 @@ do
   end
   loadfile("/sys/boot.lua")
 end
+
+while true do
+
+end
